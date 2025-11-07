@@ -1,0 +1,89 @@
+/* mini1.css — Stylish UI for Bucket Blitz */
+:root{
+  --bg1: #f0f6ff;
+  --bg2: #eef3ff;
+  --card: rgba(255,255,255,0.96);
+  --accent: #0066ff;
+  --accent-2: #00b383;
+  --muted: #5c6b7a;
+  --glass-shadow: 0 10px 30px rgba(9,30,66,0.08);
+  --radius: 14px;
+  --pad: 16px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+  background: linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%);
+  color:#0f2538;
+  -webkit-font-smoothing:antialiased;
+  padding:28px;
+}
+
+/* header */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  max-width:1200px;
+  margin:0 auto 18px;
+}
+.brand h1{margin:0;font-size:22px;color:#07213a;}
+.lead{margin:4px 0 0;color:var(--muted)}
+.status-card{
+  background:var(--card);
+  padding:12px;
+  border-radius:12px;
+  box-shadow:var(--glass-shadow);
+}
+.stat-row{display:flex;gap:12px}
+.stat{padding:6px 10px;text-align:center}
+.stat .num{font-weight:700;font-size:18px;color:var(--accent)}
+.stat .label{font-size:12px;color:var(--muted)}
+
+/* layout */
+.layout{
+  display:flex;
+  gap:26px;
+  max-width:1200px;
+  margin:0 auto;
+  align-items:flex-start;
+}
+
+/* canvas area */
+.canvas-area{width:920px;display:flex;flex-direction:column;align-items:center}
+#canvasContainer{
+  width:920px;height:520px;border-radius:var(--radius);background:var(--card);
+  box-shadow:var(--glass-shadow);position:relative;overflow:hidden;
+  border: 1px solid rgba(10,30,60,0.03);
+}
+.hint{margin-top:10px;color:var(--muted);font-size:13px}
+
+/* side panel */
+.panel{width:360px;display:flex;flex-direction:column;gap:14px}
+.panel-section{background:var(--card);padding:14px;border-radius:12px;box-shadow:var(--glass-shadow)}
+.panel-section h2{margin:0 0 8px;font-size:15px;color:#073056}
+
+/* controls */
+.control-row{display:flex;gap:10px;align-items:center}
+.control-row label{min-width:130px;font-weight:600;color:#0d2940}
+.control-row input[type="number"]{padding:8px 10px;border-radius:8px;border:1px solid #d6e0ee;background:white;width:140px}
+.btn{border:none;padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:700}
+.btn.primary{background:var(--accent);color:white;box-shadow:0 8px 20px rgba(0,102,255,0.15)}
+.btn:hover{transform:translateY(-2px);transition:transform .12s}
+
+/* game info */
+.feedback{margin-top:10px;font-weight:700;color:#2b3b4a}
+#lastResult{color:#1b3550}
+
+/* footer */
+.footer{text-align:center;margin-top:22px;color:var(--muted);font-size:13px}
+
+/* responsive */
+@media (max-width:1100px){
+  .layout{flex-direction:column;align-items:center}
+  .canvas-area{width:95%}
+  #canvasContainer{width:100%;height:420px}
+  .panel{width:95%}
+}

@@ -108,7 +108,7 @@ function drawCannonImage() {
     const drawHeight = imgCannon.height * CANNON_SCALE;
 
     // 🔹 Position so top-right of cannon image aligns with the projectile origin
-    const imgX = MARGIN_LEFT - drawWidth+15;  // top-right at origin (so shift left by its width)
+    const imgX = MARGIN_LEFT - drawWidth+20;  // top-right at origin (so shift left by its width)
     const imgY = groundY - drawHeight+50;     // top-right corner at ground level (y direction)
 
     push();
@@ -340,7 +340,8 @@ function onProjectileLanded(proj) {
       if (feedbackEl) { feedbackEl.style.color = "#0a8b3c"; feedbackEl.textContent = `HIT! Bucket at ${tx} m broken.`; }
       if (brokenCount === TARGETS.length) {
         if (feedbackEl) { feedbackEl.style.color = "#005f2a"; feedbackEl.textContent = "HURRAAY!! You broke all buckets!"; }
-        setTimeout(() => window.alert("HURRAAY!! You cleared the challenge!"), 250);
+        setTimeout(() => showVictoryPopup(), 250);
+
         gameOver = true;
       }
       return;
@@ -349,7 +350,8 @@ function onProjectileLanded(proj) {
 
   if (feedbackEl) { feedbackEl.style.color = "#a61b1b"; feedbackEl.textContent = `Missed — landed at ${landedX.toFixed(3)} m.`; }
   if (attemptsLeft <= 0 && brokenCount < TARGETS.length) {
-    setTimeout(() => window.alert("u failed, reload"), 200); gameOver = true;
+    setTimeout(() => showReloadPopup(), 200);
+
   }
   updateUI();
 }
@@ -375,5 +377,259 @@ function safeGet(id) { const el = document.getElementById(id); if (!el) console.
 function radians(deg) { return deg * Math.PI / 180; }
 
 console.log("mini1.js (images) ready");
+
+
+// ---- UI popup for failure ----
+function showReloadPopup() {
+  // Create overlay
+  const overlay = document.createElement("div");
+  overlay.style.position = "fixed";
+  overlay.style.top = 0;
+  overlay.style.left = 0;
+  overlay.style.width = "100%";
+  overlay.style.height = "100%";
+  overlay.style.backgroundColor = "rgba(0, 0, 0, 0.45)";
+  overlay.style.display = "flex";
+  overlay.style.justifyContent = "center";
+  overlay.style.alignItems = "center";
+  overlay.style.zIndex = "999";
+
+  // Create popup box
+  const popup = document.createElement("div");
+  popup.style.background = "white";
+  popup.style.padding = "30px 40px";
+  popup.style.borderRadius = "12px";
+  popup.style.boxShadow = "0 4px 25px rgba(0,0,0,0.2)";
+  popup.style.textAlign = "center";
+  popup.style.fontFamily = "Poppins, sans-serif";
+  popup.style.color = "#1a1a1a";
+
+  const msg = document.createElement("h2");
+  msg.textContent = "You failed 😢";
+  msg.style.marginBottom = "8px";
+  msg.style.fontWeight = "600";
+
+  const info = document.createElement("p");
+  info.textContent = "Better luck next time!";
+  info.style.marginBottom = "18px";
+
+  // Create reload button
+  const reloadBtn = document.createElement("button");
+  reloadBtn.textContent = "Try Again 🔁";
+  reloadBtn.style.padding = "10px 22px";
+  reloadBtn.style.fontSize = "16px";
+  reloadBtn.style.background = "#007BFF";
+  reloadBtn.style.color = "#fff";
+  reloadBtn.style.border = "none";
+  reloadBtn.style.borderRadius = "8px";
+  reloadBtn.style.cursor = "pointer";
+  reloadBtn.style.transition = "0.25s";
+  reloadBtn.addEventListener("mouseenter", () => reloadBtn.style.background = "#0056b3");
+  reloadBtn.addEventListener("mouseleave", () => reloadBtn.style.background = "#007BFF");
+
+  reloadBtn.addEventListener("click", () => {
+    location.reload(); // ✅ Reloads the page
+  });
+
+  popup.appendChild(msg);
+  popup.appendChild(info);
+  popup.appendChild(reloadBtn);
+  overlay.appendChild(popup);
+  document.body.appendChild(overlay);
+}
+
+// ---- Victory popup with confetti ----
+function showVictoryPopup() {
+  // overlay
+  const overlay = document.createElement("div");
+  overlay.style.position = "fixed";
+  overlay.style.inset = 0;
+  overlay.style.backgroundColor = "rgba(0,0,0,0.35)";
+  overlay.style.zIndex = 9999;
+  overlay.style.display = "flex";
+  overlay.style.justifyContent = "center";
+  overlay.style.alignItems = "center";
+
+  // popup container
+  const popup = document.createElement("div");
+  popup.style.width = "480px";
+  popup.style.maxWidth = "90%";
+  popup.style.padding = "28px 26px";
+  popup.style.borderRadius = "14px";
+  popup.style.background = "linear-gradient(180deg,#ffffff,#f6fbff)";
+  popup.style.boxShadow = "0 18px 60px rgba(9,30,66,0.18)";
+  popup.style.textAlign = "center";
+  popup.style.fontFamily = "Poppins, sans-serif";
+  popup.style.position = "relative";
+  popup.style.overflow = "visible";
+
+  // confetti canvas (on top of popup)
+  const confettiCanvas = document.createElement("canvas");
+  confettiCanvas.style.position = "absolute";
+  confettiCanvas.style.left = "-50%";
+  confettiCanvas.style.top = "-50%";
+  confettiCanvas.style.width = "200%";
+  confettiCanvas.style.height = "200%";
+  confettiCanvas.style.pointerEvents = "none";
+  confettiCanvas.style.zIndex = 10000;
+
+  // message content
+  const h = document.createElement("h2");
+  h.textContent = "HURRAAY!! 🎉";
+  h.style.margin = "0 0 8px 0";
+  h.style.fontSize = "26px";
+  h.style.color = "#06304a";
+  h.style.fontWeight = "700";
+
+  const msg = document.createElement("p");
+  msg.textContent = "You cleared the challenge — all buckets broken!";
+  msg.style.margin = "0 0 18px 0";
+  msg.style.color = "#234657";
+  msg.style.fontSize = "15px";
+
+  const btnRow = document.createElement("div");
+  btnRow.style.display = "flex";
+  btnRow.style.justifyContent = "center";
+  btnRow.style.gap = "12px";
+
+  const playAgain = document.createElement("button");
+  playAgain.textContent = "Play Again";
+  playAgain.style.padding = "10px 18px";
+  playAgain.style.borderRadius = "10px";
+  playAgain.style.border = "none";
+  playAgain.style.background = "#00a86b";
+  playAgain.style.color = "#fff";
+  playAgain.style.fontWeight = "700";
+  playAgain.style.cursor = "pointer";
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "Close";
+  closeBtn.style.padding = "10px 18px";
+  closeBtn.style.borderRadius = "10px";
+  closeBtn.style.border = "1px solid #d6e3ea";
+  closeBtn.style.background = "#fff";
+  closeBtn.style.color = "#073b4c";
+  closeBtn.style.fontWeight = "700";
+  closeBtn.style.cursor = "pointer";
+
+  btnRow.appendChild(playAgain);
+  btnRow.appendChild(closeBtn);
+
+  popup.appendChild(confettiCanvas);
+  popup.appendChild(h);
+  popup.appendChild(msg);
+  popup.appendChild(btnRow);
+  overlay.appendChild(popup);
+  document.body.appendChild(overlay);
+
+  // confetti implementation (simple particle system)
+  const ctx = confettiCanvas.getContext("2d");
+  let W = confettiCanvas.width = Math.floor(confettiCanvas.clientWidth);
+  let H = confettiCanvas.height = Math.floor(confettiCanvas.clientHeight);
+
+  window.addEventListener("resize", () => {
+    W = confettiCanvas.width = Math.floor(confettiCanvas.clientWidth);
+    H = confettiCanvas.height = Math.floor(confettiCanvas.clientHeight);
+  });
+
+  const colors = ["#FF4C4C", "#FFB86B", "#FFD166", "#7EE787", "#6CCFFD", "#C291FF", "#FF6BAC"];
+  const particles = [];
+  const PARTICLE_COUNT = 140;
+  const GRAVITY = 0.35;
+
+  function rand(min, max){ return Math.random() * (max - min) + min; }
+
+  for (let i=0;i<PARTICLE_COUNT;i++){
+    particles.push({
+      x: rand(W*0.25, W*0.75),
+      y: rand(H*0.1, H*0.3),
+      vx: rand(-6, 6),
+      vy: rand(-12, -4),
+      size: Math.floor(rand(6, 12)),
+      color: colors[Math.floor(Math.random()*colors.length)],
+      rotation: rand(0, Math.PI*2),
+      spin: rand(-0.2, 0.2),
+      ttl: rand(2.0, 4.0), // seconds
+      age: 0
+    });
+  }
+
+  let lastTime = performance.now();
+  let animId;
+  let running = true;
+
+  function step(now) {
+    const dt = (now - lastTime) / 1000;
+    lastTime = now;
+    ctx.clearRect(0,0,W,H);
+
+    for (let p of particles) {
+      if (!running) continue;
+      p.age += dt;
+      if (p.age > p.ttl) {
+        // respawn slowly while running
+        p.x = rand(W*0.25, W*0.75);
+        p.y = rand(H*0.05, H*0.25);
+        p.vx = rand(-6, 6); p.vy = rand(-10, -4);
+        p.age = 0; p.ttl = rand(2.0, 4.0);
+        p.size = Math.floor(rand(6,12));
+        p.color = colors[Math.floor(Math.random()*colors.length)];
+      }
+
+      // physics
+      p.vy += GRAVITY * dt * 30 * 0.033; // scale gravity somewhat
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rotation += p.spin;
+
+      // draw rectangle confetti rotated
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 0.6);
+      ctx.restore();
+    }
+
+    animId = requestAnimationFrame(step);
+  }
+
+  // start and auto-stop confetti after 4.5s
+  animId = requestAnimationFrame(step);
+  setTimeout(() => stopConfetti(), 4500);
+
+  function stopConfetti() {
+    running = false;
+    if (animId) cancelAnimationFrame(animId);
+    // fade out canvas
+    confettiCanvas.style.transition = "opacity 600ms ease";
+    confettiCanvas.style.opacity = "0";
+    setTimeout(()=> {
+      try { confettiCanvas.remove(); } catch(e) {}
+    }, 650);
+  }
+
+  // button handlers
+  playAgain.addEventListener("click", () => {
+    // cleanup & reload
+    stopConfetti();
+    overlay.remove();
+    location.reload();
+  });
+
+  closeBtn.addEventListener("click", () => {
+    stopConfetti();
+    overlay.remove();
+  });
+
+  // Also close on overlay click (but not when clicking popup)
+  overlay.addEventListener("click", (ev) => {
+    if (ev.target === overlay) {
+      stopConfetti();
+      overlay.remove();
+    }
+  });
+}
+
 
 

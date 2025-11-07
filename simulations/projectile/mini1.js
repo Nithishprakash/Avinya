@@ -18,9 +18,9 @@ const SCALE_INIT = 20;
 // ------------------
 
 // image file names (change if your files have different names/extensions)
-const CANNON_IMG = "cannon.png";
-const BUCKET_IMG = "bucket.png";
-const BUCKET_BROKEN_IMG = "bucket_broken.png";
+const CANNON_IMG = "Assets/cannon.png";
+const BUCKET_IMG = "Assets/bucket.png";
+const BUCKET_BROKEN_IMG = "Assets/bucket_broken.png";
 
 // image objects (p5 will load)
 let imgCannon = null, imgBucket = null, imgBucketBroken = null;

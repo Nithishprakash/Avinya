@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulley Simulation | Science Verse</title>
+  <link rel="stylesheet" href="pulley.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+</head>
+<body>
+
+  <h1 class="title">Pulley System Simulation</h1>
+
+  <div class="simulation-wrapper">
+    <div id="pulleyCanvasContainer"></div>
+
+    <div class="info-panel">
+      <h2>Results</h2>
+      <p>Acceleration: <span id="accValue">—</span> m/s²</p>
+      <p>Tension: <span id="tensionValue">—</span> N</p>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="buttons">
+      <button id="startBtn">Start</button>
+      <button id="resetBtn" onclick="window.location.reload()">Reset</button>
+    </div>
+  </div>
+
+  <script src="pulley.js"></script>
+</body>
+</html>

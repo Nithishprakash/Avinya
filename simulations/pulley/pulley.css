@@ -1,0 +1,149 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f7faff;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+.title {
+  font-size: 2rem;
+  margin: 20px 0;
+  color: #003366;
+}
+
+/* Layout for simulation area */
+.simulation-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 40px;
+  padding: 0 20px;
+  margin-top: 10px;
+}
+
+/* Canvas container */
+#pulleyCanvasContainer {
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  background: #ffffff;
+  width: min(90vw, 720px);
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Right side (results + icons) */
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  min-width: 220px;
+}
+
+/* Results box */
+.info-panel {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px 25px;
+  width: 100%;
+  text-align: left;
+}
+
+.info-panel h2 {
+  margin-bottom: 15px;
+  color: #003366;
+  font-size: 1.2rem;
+}
+
+/* Icon containers */
+.icon-box {
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  background: #fff;
+  width: 160px;
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.icon-label {
+  font-size: 14px;
+  margin-top: 8px;
+  color: #003366;
+  font-weight: 500;
+}
+
+/* Control buttons */
+.controls {
+  margin: 25px auto;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.buttons button {
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.buttons button:hover {
+  background: #0056b3;
+}
+
+/* Responsiveness */
+@media (max-width: 900px) {
+  .simulation-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #pulleyCanvasContainer {
+    width: 95vw;
+    height: 420px;
+  }
+
+  .side-panel {
+    width: 90%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .icon-box {
+    width: 140px;
+    height: 120px;
+  }
+
+  .info-panel {
+    order: -1;
+    width: 90%;
+    text-align: center;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .buttons button {
+    font-size: 0.9rem;
+    padding: 8px 20px;
+  }
+}

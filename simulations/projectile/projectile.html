@@ -2,14 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <!-- Make the page take the device width and allow scrolling -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projectile Motion Simulator</title>
   <link rel="stylesheet" href="projectile.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
 </head>
 <body>
+  <a href="../../index.html" class="back-btn-top">← Back</a>
+
   <h1>Projectile Motion Simulator</h1>
 
-  <!-- === Canvas + Results Side by Side === -->
+  <!-- Canvas + Results -->
   <div class="simulation-wrapper">
     <div id="projectileCanvasContainer"></div>
 
@@ -21,7 +25,7 @@
     </div>
   </div>
 
-  <!-- === Controls Below Canvas === -->
+  <!-- Controls -->
   <div class="controls">
     <div class="input-row">
       <div class="input-group">
@@ -42,35 +46,30 @@
       <button class="clear-btn" id="clearBtn">Clear</button>
     </div>
   </div>
+
+  <!-- Physics settings -->
   <div class="physics-settings">
-  <div class="setting">
-    <label for="gravityInput">Gravity (m/s²):</label>
-    <input type="number" id="gravityInput" value="9.8" step="0.1" min="0" />
+    <div class="setting">
+      <label for="gravityInput">Gravity (m/s²):</label>
+      <input type="number" id="gravityInput" value="9.8" step="0.1" min="0" />
+    </div>
+
+    <div class="setting">
+      <label for="airResistanceToggle">Air Resistance:</label>
+      <label class="switch">
+        <input type="checkbox" id="airResistanceToggle" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="setting">
+      <label for="dragInput">Drag Coefficient (k):</label>
+      <input type="number" id="dragInput" value="0.02" step="0.01" min="0" />
+    </div>
   </div>
 
-  <div class="setting">
-    <label for="airResistanceToggle">Air Resistance:</label>
-    <label class="switch">
-      <input type="checkbox" id="airResistanceToggle" />
-      <span class="slider"></span>
-    </label>
-  </div>
+  <a href="projectile-more.html" class="more-btn">More ⚡</a>
 
-  <div class="setting">
-    <label for="dragInput">Drag Coefficient (k):</label>
-    <input type="number" id="dragInput" value="0.02" step="0.01" min="0" />
-  </div>
-</div>
-
-<a href="../../index.html" class="back-btn-top">← Back</a>
-
-<a href="projectile-more.html" class="more-btn">More ⚡</a>
-
-
-
-
-  <!-- === Scripts === -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
   <script src="projectile.js"></script>
 </body>
 </html>

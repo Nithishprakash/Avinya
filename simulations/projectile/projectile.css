@@ -1,9 +1,18 @@
 /* === General Page Setup === */
+:root {
+  --primary: #007bff;
+  --bg: #f8fbff;
+  --panel-bg: rgba(255,255,255,0.95);
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; }
+
 body {
   background: linear-gradient(to bottom right, #eef3ff, #f8fbff);
   font-family: "Poppins", sans-serif;
   margin: 0;
-  padding: 0;
+  padding: 0 0 24px 0; /* room for scroll on mobile */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +24,7 @@ body {
 h1 {
   text-align: center;
   margin: 25px 0 10px 0;
-  font-size: 28px;
+  font-size: clamp(22px, 3vw, 32px);
   font-weight: 600;
   color: #0d1b2a;
 }
@@ -25,56 +34,61 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 40px;
-  margin-top: 20px;
+  gap: clamp(16px, 3vw, 40px);
+  margin-top: 16px;
   flex-wrap: wrap;
+  width: min(1200px, 95vw);
 }
 
-/* === Canvas Container === */
+/* === Canvas Container (responsive) === */
 #projectileCanvasContainer {
-  width: 900px;
-  height: 500px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.95);
+  flex: 1 1 640px;
+  width: 100%;
+  max-width: 900px;
+  /* Aspect ratio keeps canvas area proportional on any screen */
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  background: #fff;
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   position: relative;
+  min-width: 300px;
 }
 
 /* === Results Panel === */
 .info-panel {
-  width: 280px;
-  min-height: 500px;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 16px;
-  padding: 25px;
+  flex: 0 1 300px;
+  min-width: 260px;
+  background: var(--panel-bg);
+  border-radius: var(--radius);
+  padding: 20px;
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
   text-align: left;
   color: #1a2b49;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: flex-start;
-  box-sizing: border-box;
 }
 
 .info-panel h2 {
   color: #0056b3;
   font-weight: 600;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   text-align: center;
   width: 100%;
+  font-size: clamp(18px, 2vw, 22px);
 }
 
 #resultsList {
   width: 100%;
   overflow-y: auto;
-  max-height: 430px;
-  padding-right: 5px;
+  max-height: 50vh;
+  padding-right: 6px;
 }
 
 #resultsList p {
-  font-size: 15px;
+  font-size: clamp(13px, 1.4vw, 15px);
   margin: 6px 0;
   line-height: 1.4;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -83,16 +97,16 @@ h1 {
 
 /* === Controls Section === */
 .controls {
-  margin-top: 40px; /* 👈 Creates space between canvas and controls */
-  background: rgba(255, 255, 255, 0.95);
-  padding: 25px 35px;
-  border-radius: 16px;
+  margin-top: 18px;
+  background: var(--panel-bg);
+  padding: clamp(16px, 2.5vw, 24px);
+  border-radius: var(--radius);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
   text-align: center;
-  align-self: center;
+  width: min(1200px, 95vw);
 }
 
 /* === Input Row (Angle + Velocity side by side) === */
@@ -100,32 +114,36 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 40px;
+  gap: clamp(16px, 4vw, 40px);
+  flex-wrap: wrap;
 }
 
 .input-group {
   text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .input-group label {
   font-weight: 500;
-  display: block;
-  margin-bottom: 4px;
   color: #0d1b2a;
+  font-size: clamp(14px, 1.6vw, 16px);
 }
 
 .input-group input[type="range"] {
-  width: 140px;
+  width: clamp(140px, 20vw, 240px);
   vertical-align: middle;
 }
 
 .input-group input[type="text"] {
-  width: 50px;
-  padding: 4px;
-  margin-left: 6px;
+  width: 64px;
+  padding: 6px 8px;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 8px;
   text-align: center;
+  font-size: 14px;
 }
 
 /* === Buttons Row === */
@@ -133,7 +151,8 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: clamp(12px, 3vw, 20px);
+  flex-wrap: wrap;
 }
 
 .launch-btn,
@@ -141,139 +160,42 @@ h1 {
   border: none;
   color: white;
   padding: 10px 22px;
-  font-size: 16px;
-  border-radius: 8px;
+  font-size: clamp(14px, 1.6vw, 16px);
+  border-radius: 10px;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: all 0.25s ease;
-  font-weight: 500;
+  font-weight: 600;
+  min-width: 120px;
 }
 
-.launch-btn {
-  background: #007bff;
-}
+.launch-btn { background: var(--primary); }
+.launch-btn:hover { background: #0056b3; transform: translateY(-1px); }
 
-.launch-btn:hover {
-  background: #0056b3;
-  transform: scale(1.05);
-}
+.clear-btn { background: #ff3b3b; }
+.clear-btn:hover { background: #c50000; transform: translateY(-1px); }
 
-.clear-btn {
-  background: #ff3b3b;
-}
-
-.clear-btn:hover {
-  background: #c50000;
-  transform: scale(1.05);
-}
-
-/* === Scroll Styling for Results Panel === */
-#resultsList::-webkit-scrollbar {
-  width: 6px;
-}
-
-#resultsList::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-}
-
-/* === Responsive Layout === */
-@media (max-width: 1100px) {
-  .simulation-wrapper {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #projectileCanvasContainer {
-    width: 95%;
-  }
-
-  .info-panel {
-    width: 90%;
-    margin-top: 20px;
-    min-height: auto;
-  }
-}
-
-.physics-settings {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-
-.setting {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 500;
-}
-
-/* Toggle switch styling */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 45px;
-  height: 24px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  inset: 0;
-  background-color: #ccc;
-  border-radius: 24px;
-  transition: 0.3s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  border-radius: 50%;
-  transition: 0.3s;
-}
-
-input:checked + .slider {
-  background-color: #2196f3;
-}
-
-input:checked + .slider:before {
-  transform: translateX(21px);
-}
 /* === Physics Settings Panel === */
 .physics-settings {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 35px;
-  margin-top: 20px;
-  padding: 15px 25px;
-  border-radius: 16px;
+  gap: clamp(12px, 3.5vw, 35px);
+  margin-top: 18px;
+  padding: clamp(12px, 2.5vw, 18px);
+  border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   flex-wrap: wrap;
+  width: min(1200px, 95vw);
 }
 
-/* Individual setting box */
 .setting {
   display: flex;
   align-items: center;
   gap: 10px;
   background: rgba(240, 245, 255, 0.8);
-  padding: 10px 15px;
+  padding: 10px 14px;
   border-radius: 12px;
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
   font-weight: 500;
@@ -282,12 +204,12 @@ input:checked + .slider:before {
 
 .setting label {
   white-space: nowrap;
+  font-size: clamp(13px, 1.4vw, 15px);
 }
 
-/* === Input Fields === */
 .setting input[type="number"] {
-  width: 80px;
-  padding: 5px 8px;
+  width: 88px;
+  padding: 6px 8px;
   border-radius: 8px;
   border: 1px solid #ccc;
   text-align: center;
@@ -297,97 +219,29 @@ input:checked + .slider:before {
 }
 
 .setting input[type="number"]:focus {
-  border-color: #007bff;
+  border-color: var(--primary);
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
   outline: none;
 }
 
-/* === Toggle Switch (Air Resistance) === */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 45px;
-  height: 24px;
-  flex-shrink: 0;
-}
+/* Toggle switch */
+.switch { position: relative; display: inline-block; width: 45px; height: 24px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; inset: 0; background-color: #ccc; border-radius: 24px; transition: 0.3s; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: 0.3s; }
+input:checked + .slider { background-color: var(--primary); }
+input:checked + .slider:before { transform: translateX(21px); }
 
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  inset: 0;
-  background-color: #ccc;
-  border-radius: 24px;
-  transition: 0.3s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  border-radius: 50%;
-  transition: 0.3s;
-}
-
-input:checked + .slider {
-  background-color: #007bff;
-}
-
-input:checked + .slider:before {
-  transform: translateX(21px);
-}
-
-/* === Responsive layout for smaller screens === */
-@media (max-width: 768px) {
-  .physics-settings {
-    flex-direction: column;
-    gap: 15px;
-    padding: 15px;
-  }
-
-  .setting {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .setting input[type="number"] {
-    width: 70px;
-  }
-}
-
-.more-btn {
-  display: inline-block;
-  margin-top: 12px;
-  margin-bottom: 20px;
-  padding: 10px 18px;
-  background: #007bff;
-  color: white;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: 0.25s;
-}
-
-.more-btn:hover {
-  background: #0056b3;
-  transform: scale(1.05);
-}
+/* Scrollbar in results */
+#resultsList::-webkit-scrollbar { width: 6px; }
+#resultsList::-webkit-scrollbar-thumb { background-color: rgba(0, 0, 0, 0.2); border-radius: 4px; }
 
 /* Back button (top-left corner) */
 .back-btn-top {
   position: absolute;
-  top: 20px;
-  left: 25px;
-  background: #007bff;
+  top: 16px;
+  left: 20px;
+  background: var(--primary);
   color: white;
   padding: 8px 16px;
   border-radius: 8px;
@@ -399,8 +253,31 @@ input:checked + .slider:before {
   z-index: 20;
 }
 
-.back-btn-top:hover {
-  background: #0056b3;
-  transform: scale(1.05);
-}
+.back-btn-top:hover { background: #0056b3; transform: translateY(-1px); }
 
+/* More button */
+.more-btn {
+  display: inline-block;
+  margin-top: 12px;
+  margin-bottom: 20px;
+  padding: 10px 18px;
+  background: var(--primary);
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+}
+.more-btn:hover { background: #0056b3; transform: translateY(-1px); }
+
+/* Stack layout earlier on small widths */
+@media (max-width: 1100px) {
+  .simulation-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  .info-panel {
+    width: 100%;
+    max-width: 900px;
+  }
+}

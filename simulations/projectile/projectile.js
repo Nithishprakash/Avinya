@@ -392,6 +392,7 @@ function updateResults(projectile) {
     timeOfFlight = t.toFixed(3);
   }
 
+  
   const entry = document.createElement("p");
   entry.innerHTML = `
     <strong style="color:${projectile.color}">Projectile ${projectileCount}:</strong><br>

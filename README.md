@@ -1,1 +1,3 @@
 This is our web app, we will build a companion app using android studio and runanywhere sdk, we are working on it, and also check out our web app at https://nithishprakash.github.io/Avinya/index.html
+
+*A web application developed during a hackathon.*
